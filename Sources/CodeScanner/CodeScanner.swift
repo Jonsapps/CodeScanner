@@ -98,7 +98,7 @@ public struct CodeScannerView: UIViewControllerRepresentable {
             view.backgroundColor = UIColor.black
             captureSession = AVCaptureSession()
 
-            guard let videoCaptureDevice = AVCaptureDevice.default(.builtInDualCamera, for: .video, position: camera) else { return }
+            guard let videoCaptureDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: camera) else { return }
             let videoInput: AVCaptureDeviceInput
 
             do {
