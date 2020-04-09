@@ -84,6 +84,7 @@ public struct CodeScannerView: UIViewControllerRepresentable {
         var captureSession: AVCaptureSession!
         var previewLayer: AVCaptureVideoPreviewLayer!
         var delegate: ScannerCoordinator?
+        var camera = AVCaptureDevice.Position.front
 
         override public func viewDidLoad() {
             super.viewDidLoad()
@@ -97,7 +98,7 @@ public struct CodeScannerView: UIViewControllerRepresentable {
             view.backgroundColor = UIColor.black
             captureSession = AVCaptureSession()
 
-            guard let videoCaptureDevice = AVCaptureDevice.default(for: .video) else { return }
+            guard let videoCaptureDevice = AVCaptureDevice.default(.builtInDualCamera, for: .video, position: camera) else { return }
             let videoInput: AVCaptureDeviceInput
 
             do {
@@ -176,11 +177,13 @@ public struct CodeScannerView: UIViewControllerRepresentable {
     public let codeTypes: [AVMetadataObject.ObjectType]
     public var simulatedData = ""
     public var completion: (Result<String, ScanError>) -> Void
+    public var camera = AVCaptureDevice.Position.front
     
-    public init(codeTypes: [AVMetadataObject.ObjectType], simulatedData: String = "", completion: @escaping (Result<String, ScanError>) -> Void) {
+    public init(codeTypes: [AVMetadataObject.ObjectType], simulatedData: String = "", camera: AVCaptureDevice.Position, completion: @escaping (Result<String, ScanError>) -> Void) {
         self.codeTypes = codeTypes
         self.simulatedData = simulatedData
         self.completion = completion
+        self.camera = camera
     }
     
     public func makeCoordinator() -> ScannerCoordinator {
@@ -189,6 +192,7 @@ public struct CodeScannerView: UIViewControllerRepresentable {
     
     public func makeUIViewController(context: Context) -> ScannerViewController {
         let viewController = ScannerViewController()
+        viewController.camera = self.camera
         viewController.delegate = context.coordinator
         return viewController
     }
@@ -200,7 +204,7 @@ public struct CodeScannerView: UIViewControllerRepresentable {
 
 struct CodeScannerView_Previews: PreviewProvider {
     static var previews: some View {
-        CodeScannerView(codeTypes: [.qr]) { result in
+        CodeScannerView(codeTypes: [.qr], camera: .front) { result in
             // do nothing
         }
     }
