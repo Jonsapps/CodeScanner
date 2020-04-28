@@ -56,7 +56,7 @@ public struct CodeScannerView: UIViewControllerRepresentable {
     #if targetEnvironment(simulator)
     public class ScannerViewController: UIViewController {
         var delegate: ScannerCoordinator?
-        var camera = AVCaptureDevice.Position.front
+        var camera = AVCaptureDevice.Position.back
         
         override public func loadView() {
             view = UIView()
