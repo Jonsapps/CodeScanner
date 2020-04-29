@@ -31,13 +31,10 @@ public struct CodeScannerView: UIViewControllerRepresentable {
                 guard let readableObject = metadataObject as? AVMetadataMachineReadableCodeObject else { return }
                 guard let stringValue = readableObject.stringValue else { return }
                 guard codeFound == false else { return }
-                
-                AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
-                AudioServicesPlaySystemSound(SystemSoundID(1057))
-                found(code: stringValue)
-                
                 // make sure we only trigger scans once per use
                 codeFound = true
+                AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
+                found(code: stringValue)
             }
         }
         
