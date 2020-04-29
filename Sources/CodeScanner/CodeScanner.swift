@@ -32,7 +32,7 @@ public struct CodeScannerView: UIViewControllerRepresentable {
                 guard let stringValue = readableObject.stringValue else { return }
                 guard codeFound == false else { return }
                 
-                AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID))
+                AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
                 AudioServicesPlaySystemSound(SystemSoundID(1057))
                 found(code: stringValue)
                 
