@@ -32,7 +32,8 @@ public struct CodeScannerView: UIViewControllerRepresentable {
                 guard let stringValue = readableObject.stringValue else { return }
                 guard codeFound == false else { return }
                 
-                AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
+                AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID))
+                AudioServicesPlaySystemSound(SystemSoundID(1057))
                 found(code: stringValue)
                 
                 // make sure we only trigger scans once per use
@@ -43,8 +44,10 @@ public struct CodeScannerView: UIViewControllerRepresentable {
         func found(code: String) {
             #if targetEnvironment(simulator)
             parent.completion(.success(parent.simulatedData))
+            codeFound = false
             #else
             parent.completion(.success(code))
+            codeFound = false
             #endif
         }
         
